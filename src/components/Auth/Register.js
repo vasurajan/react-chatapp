@@ -8,7 +8,7 @@ import {
   Button,
   Header,
   Message,
-  Icon
+  Icon,
 } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 //register class component
@@ -20,7 +20,7 @@ class Register extends React.Component {
     passwordConfirmation: "",
     errors: [],
     loading: false,
-    usersRef: firebase.database().ref("users")
+    usersRef: firebase.database().ref("users"),
   };
   //validating form
   isFormValid = () => {
@@ -59,61 +59,63 @@ class Register extends React.Component {
     }
   };
   //displaying errors
-  displayErrors = errors =>
+  displayErrors = (errors) =>
     errors.map((error, i) => <p key={i}>{error.message}</p>);
 
-  handleChange = event => {
+  handleChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
   };
   //handling events
-  handleSubmit = event => {
+  handleSubmit = (event) => {
     event.preventDefault();
     if (this.isFormValid()) {
       this.setState({ errors: [], loading: true });
       firebase
-        .auth()  // to make use of all authorizaton tools
-        .createUserWithEmailAndPassword(this.state.email, this.state.password)  // to register user with credentials
-        .then(createdUser => {
+        .auth() // to make use of all authorizaton tools
+        .createUserWithEmailAndPassword(this.state.email, this.state.password) // to register user with credentials
+        .then((createdUser) => {
           console.log(createdUser);
           createdUser.user
             .updateProfile({
               displayName: this.state.username,
               photoURL: `http://gravatar.com/avatar/${md5(
                 createdUser.user.email
-              )}?d=identicon`
+              )}?d=identicon`,
             })
             .then(() => {
               this.saveUser(createdUser).then(() => {
                 console.log("user saved");
               });
             })
-            .catch(err => {
+            .catch((err) => {
               console.error(err);
               this.setState({
                 errors: this.state.errors.concat(err),
-                loading: false
+                loading: false,
               });
             });
         })
-        .catch(err => {
+        .catch((err) => {
           console.error(err);
           this.setState({
             errors: this.state.errors.concat(err),
-            loading: false
+            loading: false,
           });
         });
     }
   };
   //storing user details
-  saveUser = createdUser => {
+  saveUser = (createdUser) => {
     return this.state.usersRef.child(createdUser.user.uid).set({
       name: createdUser.user.displayName,
-      avatar: createdUser.user.photoURL
+      avatar: createdUser.user.photoURL,
     });
   };
 
   handleInputError = (errors, inputName) => {
-    return errors.some(error => error.message.toLowerCase().includes(inputName))
+    return errors.some((error) =>
+      error.message.toLowerCase().includes(inputName)
+    )
       ? "error"
       : "";
   };
@@ -125,14 +127,14 @@ class Register extends React.Component {
       password,
       passwordConfirmation,
       errors,
-      loading
+      loading,
     } = this.state;
     //adding input fields and button
     return (
       <Grid textAlign="center" verticalAlign="middle" className="app">
         <Grid.Column style={{ maxWidth: 450 }}>
-          <Header as="h1" icon color="blue" textAlign="center">
-            <Icon name="chat" color="blue" />
+          <Header as="h1" icon color="yellow" textAlign="center">
+            <Icon name="chat" color="yellow" />
             Register for ChatBee
           </Header>
           <Form onSubmit={this.handleSubmit} size="large">
@@ -187,7 +189,7 @@ class Register extends React.Component {
               <Button
                 disabled={loading}
                 className={loading ? "loading" : ""}
-                color="blue"
+                color="orange"
                 fluid
                 size="large"
               >

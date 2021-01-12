@@ -7,7 +7,7 @@ import {
   Button,
   Header,
   Message,
-  Icon
+  Icon,
 } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 // login component
@@ -16,31 +16,31 @@ class Login extends React.Component {
     email: "",
     password: "",
     errors: [],
-    loading: false
+    loading: false,
   };
 
-  displayErrors = errors =>
+  displayErrors = (errors) =>
     errors.map((error, i) => <p key={i}>{error.message}</p>);
 
-  handleChange = event => {
+  handleChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  handleSubmit = event => {
+  handleSubmit = (event) => {
     event.preventDefault();
     if (this.isFormValid(this.state)) {
       this.setState({ errors: [], loading: true });
       firebase
         .auth()
         .signInWithEmailAndPassword(this.state.email, this.state.password)
-        .then(signedInUser => {
+        .then((signedInUser) => {
           console.log(signedInUser);
         })
-        .catch(err => {
+        .catch((err) => {
           console.error(err);
           this.setState({
             errors: this.state.errors.concat(err),
-            loading: false
+            loading: false,
           });
         });
     }
@@ -49,7 +49,9 @@ class Login extends React.Component {
   isFormValid = ({ email, password }) => email && password;
 
   handleInputError = (errors, inputName) => {
-    return errors.some(error => error.message.toLowerCase().includes(inputName))
+    return errors.some((error) =>
+      error.message.toLowerCase().includes(inputName)
+    )
       ? "error"
       : "";
   };
@@ -60,8 +62,8 @@ class Login extends React.Component {
     return (
       <Grid textAlign="center" verticalAlign="middle" className="app">
         <Grid.Column style={{ maxWidth: 450 }}>
-          <Header as="h1" icon color="blue" textAlign="center">
-            <Icon name="chat" color="blue" />
+          <Header as="h1" icon color="yellow" textAlign="center">
+            <Icon name="chat" color="yellow" />
             Login to ChatBee
           </Header>
           <Form onSubmit={this.handleSubmit} size="large">
@@ -93,7 +95,7 @@ class Login extends React.Component {
               <Button
                 disabled={loading}
                 className={loading ? "loading" : ""}
-                color="blue"
+                color="orange"
                 fluid
                 size="large"
               >
