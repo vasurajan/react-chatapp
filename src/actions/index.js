@@ -1,4 +1,4 @@
-import {SET_USER} from './types'
+import {SET_USER, CLEAR_USER} from './types'
 
 // passing the user data that we are getting
 export const setUser = (user) => {
@@ -7,5 +7,11 @@ export const setUser = (user) => {
        payload: {
            currentUser: user   // data that our state needs to be changed with
        }
+    }
+}
+
+export const clearUser = () => {
+    return {
+        type: CLEAR_USER,
     }
 }
